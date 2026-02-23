@@ -1,0 +1,24 @@
+# Backend
+backend/server
+backend/tmp/
+*.exe
+
+# Frontend
+frontend/node_modules/
+frontend/.expo/
+frontend/dist/
+
+# Environment
+.env
+.env.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+docker-compose.override.yml
