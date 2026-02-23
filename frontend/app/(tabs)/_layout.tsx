@@ -9,8 +9,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textLight,
         tabBarStyle: {
-          backgroundColor: Colors.surface,
+          backgroundColor: Colors.surfaceLight,
           borderTopColor: Colors.border,
+          borderTopWidth: 1,
           height: 60,
           paddingBottom: 8,
           paddingTop: 8,
@@ -20,7 +21,7 @@ export default function TabLayout() {
           fontWeight: "600",
         },
         headerStyle: {
-          backgroundColor: Colors.surface,
+          backgroundColor: Colors.background,
         },
         headerTintColor: Colors.text,
         headerTitleStyle: {

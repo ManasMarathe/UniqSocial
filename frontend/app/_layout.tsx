@@ -34,14 +34,14 @@ export default function RootLayout() {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color={Colors.primary} />
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
       </View>
     );
   }
 
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <Slot />
     </>
   );

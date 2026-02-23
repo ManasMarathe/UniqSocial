@@ -139,7 +139,7 @@ export default function ChatScreen() {
       <Stack.Screen
         options={{
           title: match?.partner_username || "Chat",
-          headerStyle: { backgroundColor: Colors.surface },
+          headerStyle: { backgroundColor: Colors.surfaceLight },
           headerTintColor: Colors.text,
           headerRight: () => (
             <TouchableOpacity onPress={handleEndChat} style={styles.endButton}>
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   sentTime: {
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(255,255,255,0.6)",
   },
   receivedTime: {
     color: Colors.textLight,
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     padding: 12,
     paddingBottom: Platform.OS === "ios" ? 24 : 12,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.surfaceLight,
     borderTopWidth: 1,
     borderTopColor: Colors.border,
     gap: 8,

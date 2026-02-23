@@ -198,6 +198,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: "center",
     marginBottom: 32,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 8,
   },
   buttonDisabled: {
     opacity: 0.7,
@@ -212,6 +217,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     marginBottom: 32,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   locationText: {
     fontSize: 18,
@@ -235,7 +242,9 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: "center",
-    backgroundColor: "#FFF0F0",
+    backgroundColor: "rgba(255,77,106,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255,77,106,0.2)",
   },
   logoutText: {
     color: Colors.error,

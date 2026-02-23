@@ -16,7 +16,7 @@ export default function ChatEndedScreen() {
       <Stack.Screen
         options={{
           title: "Chat Ended",
-          headerStyle: { backgroundColor: Colors.surface },
+          headerStyle: { backgroundColor: Colors.surfaceLight },
           headerTintColor: Colors.text,
           headerBackVisible: false,
         }}
@@ -86,6 +86,11 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 16,
     paddingHorizontal: 48,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 8,
   },
   buttonText: {
     color: "#fff",
