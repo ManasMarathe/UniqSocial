@@ -16,6 +16,7 @@ import (
 	"github.com/uniqsocial/backend/internal/chat"
 	"github.com/uniqsocial/backend/internal/db"
 	"github.com/uniqsocial/backend/internal/matcher"
+	"github.com/uniqsocial/backend/internal/profile"
 	"github.com/uniqsocial/backend/internal/scoring"
 	"github.com/uniqsocial/backend/internal/user"
 	"github.com/uniqsocial/backend/pkg/config"
@@ -49,6 +50,7 @@ func main() {
 	go chatHub.Run()
 	chatHandler := chat.NewHandler(pool, rdb, chatHub, jwtSvc)
 	matcherSvc := matcher.NewService(pool, rdb)
+	profileHandler := profile.NewHandler(pool)
 	matchHandler := matcher.NewHandler(matcherSvc)
 	scheduler := matcher.NewScheduler(matcherSvc, pool, scoringSvc)
 	go scheduler.Start(ctx)
@@ -73,6 +75,11 @@ func main() {
 				r.Get("/me", userHandler.GetMe)
 				r.Put("/me", userHandler.UpdateMe)
 				r.Put("/me/location", userHandler.UpdateLocation)
+			})
+
+			r.Route("/profile", func(r chi.Router) {
+				r.Get("/", profileHandler.Get)
+				r.Put("/", profileHandler.Update)
 			})
 
 			r.Route("/match", func(r chi.Router) {

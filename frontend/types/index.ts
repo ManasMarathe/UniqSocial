@@ -7,6 +7,7 @@ export interface User {
   city: string | null;
   latitude?: number;
   longitude?: number;
+  profile_completed: boolean;
   created_at: string;
 }
 
