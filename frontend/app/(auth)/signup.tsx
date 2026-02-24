@@ -22,9 +22,16 @@ export default function SignupScreen() {
   const signup = useAuthStore((s) => s.signup);
   const { requestPermission, updateLocation } = useLocationStore();
 
+  const isValidEmail = (value: string) =>
+    /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+
   const handleSignup = async () => {
     if (!username.trim() || !email.trim() || !password) {
       Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+    if (!isValidEmail(email.trim())) {
+      Alert.alert("Invalid Email", "Please enter a valid email address.");
       return;
     }
     if (password.length < 8) {
@@ -34,14 +41,16 @@ export default function SignupScreen() {
 
     setLoading(true);
     try {
-      await signup(email.trim(), password, username.trim());
+      await signup(email.trim().toLowerCase(), password, username.trim());
 
       const granted = await requestPermission();
       if (granted) {
         await updateLocation();
       }
-    } catch {
-      Alert.alert("Error", "Failed to create account. Email may already be in use.");
+    } catch (err: any) {
+      const msg =
+        err?.response?.data?.error || "Failed to create account. Please try again.";
+      Alert.alert("Error", msg);
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -11,6 +12,8 @@ import (
 
 	"github.com/uniqsocial/backend/pkg/response"
 )
+
+var emailRegex = regexp.MustCompile(`^[A-Za-z0-9+_.\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$`)
 
 type Handler struct {
 	db     *pgxpool.Pool
@@ -48,6 +51,11 @@ func (h *Handler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	if req.Email == "" || req.Password == "" || req.Username == "" {
 		response.Error(w, http.StatusBadRequest, "email, password, and username are required")
+		return
+	}
+
+	if !emailRegex.MatchString(req.Email) {
+		response.Error(w, http.StatusBadRequest, "invalid email format")
 		return
 	}
 

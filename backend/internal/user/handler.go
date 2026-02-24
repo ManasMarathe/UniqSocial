@@ -17,15 +17,16 @@ type Handler struct {
 }
 
 type UserProfile struct {
-	ID        string    `json:"id"`
-	Email     string    `json:"email"`
-	Username  string    `json:"username"`
-	PhotoURL  *string   `json:"photo_url"`
-	Interests []string  `json:"interests"`
-	City      *string   `json:"city"`
-	Latitude  *float64  `json:"latitude,omitempty"`
-	Longitude *float64  `json:"longitude,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
+	ID               string    `json:"id"`
+	Email            string    `json:"email"`
+	Username         string    `json:"username"`
+	PhotoURL         *string   `json:"photo_url"`
+	Interests        []string  `json:"interests"`
+	City             *string   `json:"city"`
+	Latitude         *float64  `json:"latitude,omitempty"`
+	Longitude        *float64  `json:"longitude,omitempty"`
+	ProfileCompleted bool      `json:"profile_completed"`
+	CreatedAt        time.Time `json:"created_at"`
 }
 
 type updateProfileRequest struct {
@@ -51,9 +52,13 @@ func (h *Handler) GetMe(w http.ResponseWriter, r *http.Request) {
 	var p UserProfile
 	var interests json.RawMessage
 	err := h.db.QueryRow(context.Background(),
-		`SELECT id, email, username, photo_url, interests, city, latitude, longitude, created_at
-		 FROM users WHERE id = $1`, userID,
-	).Scan(&p.ID, &p.Email, &p.Username, &p.PhotoURL, &interests, &p.City, &p.Latitude, &p.Longitude, &p.CreatedAt)
+		`SELECT u.id, u.email, u.username, u.photo_url, u.interests, u.city,
+		        u.latitude, u.longitude, u.created_at,
+		        COALESCE(up.profile_completed, false)
+		 FROM users u
+		 LEFT JOIN user_profiles up ON up.user_id = u.id
+		 WHERE u.id = $1`, userID,
+	).Scan(&p.ID, &p.Email, &p.Username, &p.PhotoURL, &interests, &p.City, &p.Latitude, &p.Longitude, &p.CreatedAt, &p.ProfileCompleted)
 
 	if err != nil {
 		response.Error(w, http.StatusNotFound, "user not found")

@@ -10,7 +10,7 @@ import {
 import { Colors } from "../constants/colors";
 
 export default function RootLayout() {
-  const { isAuthenticated, isLoading, initialize } = useAuthStore();
+  const { isAuthenticated, isLoading, initialize, user } = useAuthStore();
   const segments = useSegments();
   const router = useRouter();
 
@@ -22,13 +22,17 @@ export default function RootLayout() {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === "(auth)";
+    const inOnboarding = segments[0] === "(onboarding)";
+    const profileDone = user?.profile_completed ?? false;
 
-    if (!isAuthenticated && !inAuthGroup) {
-      router.replace("/(auth)/login");
-    } else if (isAuthenticated && inAuthGroup) {
-      router.replace("/(tabs)");
+    if (!isAuthenticated) {
+      if (!inAuthGroup) router.replace("/(auth)/login");
+    } else if (!profileDone) {
+      if (!inOnboarding) router.replace("/(onboarding)/identity");
+    } else {
+      if (inAuthGroup || inOnboarding) router.replace("/(tabs)");
     }
-  }, [isAuthenticated, isLoading, segments]);
+  }, [isAuthenticated, isLoading, segments, user?.profile_completed]);
 
   if (isLoading) {
     return (

@@ -1,0 +1,20 @@
+CREATE TABLE user_profiles (
+    user_id              UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    display_name         VARCHAR(255),
+    age                  INTEGER,
+    city                 VARCHAR(255),
+    occupation           VARCHAR(255),
+    ideal_weekend        TEXT,
+    love_talking_about   TEXT,
+    energy_level         VARCHAR(50),
+    social_style         VARCHAR(50),
+    sleep_schedule       VARCHAR(50),
+    drinking             VARCHAR(50),
+    fitness_level        VARCHAR(50),
+    work_schedule        VARCHAR(50),
+    looking_for          JSONB DEFAULT '[]'::jsonb,
+    currently_interested_in JSONB DEFAULT '[]'::jsonb,
+    profile_completed    BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at           TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
